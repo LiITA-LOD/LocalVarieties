@@ -45,6 +45,63 @@ ontolex:canonicalForm ?liitaLemma.
 FILTER regex(str(?wrIT), "vecch") .
 } group by ?lemma ?liitaLemma
 ```
+** Find entries that starts with *z* in Parmigiano and with *s* in Italian **
+
+'''
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT ?lemma (GROUP_CONCAT(DISTINCT ?wr ;separator=", ") as ?wrs) ?liitaLemma (GROUP_CONCAT(DISTINCT ?wrIT ;separator=", ") as ?wrsIT)
+WHERE {
+?lemma a lila:Lemma .
+?lemma ontolex:writtenRep ?wr .
+?le ontolex:canonicalForm ?lemma.
+?leITA ontolex:translatableAs ?le;
+ontolex:canonicalForm ?liitaLemma.
+?liitaLemma ontolex:writtenRep ?wrIT.
+FILTER regex(str(?wr), "^z") .
+FILTER regex(str(?wrIT), "^s") .
+} group by ?lemma ?liitaLemma
+'''
+
+** Find entries that contains *ci* (voiceless postalveolar affricate) in Parmigiano and *chi* (voiceless velar plosive) in Italian **
+'''
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT ?lemma (GROUP_CONCAT(DISTINCT ?wr ;separator=", ") as ?wrs) ?liitaLemma (GROUP_CONCAT(DISTINCT ?wrIT ;separator=", ") as ?wrsIT)
+WHERE {
+?lemma a lila:Lemma .
+?lemma ontolex:writtenRep ?wr .
+?le ontolex:canonicalForm ?lemma.
+?leITA ontolex:translatableAs ?le;
+ontolex:canonicalForm ?liitaLemma.
+?liitaLemma ontolex:writtenRep ?wrIT.
+FILTER regex(str(?wr), "ci") .
+FILTER regex(str(?wrIT), "chi") .
+} group by ?lemma ?liitaLemma
+'''
+
+** Find adjectives that end with *bil* in Parmigiano ** 
+'''
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT ?lemma (GROUP_CONCAT(DISTINCT ?wr ;separator=", ") as ?wrs) ?liitaLemma (GROUP_CONCAT(DISTINCT ?wrIT ;separator=", ") as ?wrsIT)
+WHERE {
+?lemma a lila:Lemma .
+?lemma ontolex:writtenRep ?wr .
+?lemma lila:hasPOS lila:adjective .
+?le ontolex:canonicalForm ?lemma.
+?leITA ontolex:translatableAs ?le;
+ontolex:canonicalForm ?liitaLemma.
+?liitaLemma ontolex:writtenRep ?wrIT.
+FILTER regex(str(?wr), "bil$") .
+} group by ?lemma ?liitaLemma
+'''
 
 **Query the [Compl-IT lexicon](https://dspace-clarin-it.ilc.cnr.it/repository/xmlui/handle/20.500.11752/ILC-1007) to find definitions that begin with the word *uccello* (EN: *bird*), the correspoding Italian entry and the translation into Parmigiano**
 ```
