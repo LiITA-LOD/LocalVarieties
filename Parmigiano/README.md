@@ -1,7 +1,7 @@
 # Parmigiano
 This folder contains:
 - The Lemma Bank of the [dialect of Parma]([https://en.wikipedia.org/wiki/Parma](https://it.wikipedia.org/wiki/Dialetto_parmigiano). It consists of a large collection of lemmas, serving as the backbone to achieve interoperability, by linking all those entries in lexical resources and tokens in corpora that point to the same lemma.
-- The Carpi-Pavarini glossary, that is a bilingual lexicon having Italian entries and the corresponding translations in Parmigiano.
+- The VLP (Vocabolario della Lingua Parmigiana) glossary, that is a bilingual lexicon having Italian entries and the corresponding translations in Parmigiano, edited by Umberto Pavarini and Gruppo di Lavoro Memento Mori [https://dialetto.comune.parma.it/vocabolarioparmigiano/avvio.htm](https://dialetto.comune.parma.it/vocabolarioparmigiano/avvio.htm).
 Data are modelled according to the OntoLex-Lemon model and are provided in Turtle format. The RDF version of the glossary includes the linking to the LiIta Knowledge Base.
 The subfolder *source* contains the same data but in csv format.
 
