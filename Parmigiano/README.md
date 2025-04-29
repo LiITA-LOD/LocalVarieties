@@ -29,6 +29,33 @@ rdfs:comment "Usage: Voce gergale" ;
 ontolex:canonicalForm ?lemma .
 }
 ```
+
+**Find all translations of the entry "donna" (woman) and show the corresponding usage comment**
+[Results](https://kgccc.di.unito.it/sparql/?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0A%0D%0ASELECT+%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrIT+%3B+separator%3D%22%2C+%22%29+AS+%3FwrsIT%29+%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3Fwr+%3B+separator%3D%22%2C+%22%29+AS+%3Fwrs%29+%0D%0A++%3Fcomment%0D%0AWHERE+%7B%0D%0A%3Flemma+a+lila%3ALemma+%3B%0D%0Aontolex%3AwrittenRep+%3Fwr+.%0D%0A%3Fle+ontolex%3AcanonicalForm+%3Flemma+.%0D%0AOPTIONAL+%7B+%3Fle+rdfs%3Acomment+%3Fcomment+.+%7D%0D%0A%3FleITA+ontolex%3AtranslatableAs+%3Fle+%3B%0D%0Aontolex%3AcanonicalForm+%3FliitaLemma+.%0D%0A%3FliitaLemma+ontolex%3AwrittenRep+%3FwrIT+.%0D%0AFILTER+regex%28str%28%3FwrIT%29%2C+%22%5Edonna%24%22%29%0D%0A%7D%0D%0AGROUP+BY+%3Fcomment%0D%0AORDER+BY+ASC%28%3Fcomment%29%0D%0A&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
+```
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT 
+  (GROUP_CONCAT(DISTINCT ?wrIT ; separator=", ") AS ?wrsIT) 
+  (GROUP_CONCAT(DISTINCT ?wr ; separator=", ") AS ?wrs) 
+  ?comment
+WHERE {
+?lemma a lila:Lemma ;
+ontolex:writtenRep ?wr .
+?le ontolex:canonicalForm ?lemma .
+OPTIONAL { ?le rdfs:comment ?comment . }
+?leITA ontolex:translatableAs ?le ;
+ontolex:canonicalForm ?liitaLemma .
+?liitaLemma ontolex:writtenRep ?wrIT .
+FILTER regex(str(?wrIT), "^donna$")
+}
+GROUP BY ?comment
+ORDER BY ASC(?comment)
+```
+
 **Find all Italian entries that contain the substring *vecch* (root meaning *old*) and show the corresponding translations into Parmigiano.**
 
 [Results](https://kgccc.di.unito.it/sparql/?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0A%0D%0ASELECT+%3Flemma+%28GROUP_CONCAT%28DISTINCT+%3Fwr+%3Bseparator%3D%22%2C+%22%29+as+%3Fwrs%29+%3FliitaLemma+%28GROUP_CONCAT%28DISTINCT+%3FwrIT+%3Bseparator%3D%22%2C+%22%29+as+%3FwrsIT%29%0D%0AWHERE+%7B%0D%0A%3Flemma+a+lila%3ALemma+.%0D%0A%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A%3Fle+ontolex%3AcanonicalForm+%3Flemma.%0D%0A%3FleITA+ontolex%3AtranslatableAs+%3Fle%3B%0D%0Aontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A%3FliitaLemma+ontolex%3AwrittenRep+%3FwrIT.%0D%0AFILTER+regex%28str%28%3FwrIT%29%2C+%22vecch%22%29+.%0D%0A%7D+group+by+%3Flemma+%3FliitaLemma&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
