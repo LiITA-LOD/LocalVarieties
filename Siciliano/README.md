@@ -54,8 +54,8 @@ WHERE {
 ?lemma dcterms:isPartOf <http://liita.it/data/id/DialettoSiciliano/lemma/LemmaBank>.
 ?lemma ontolex:writtenRep ?wr .
 ?lemma lila:hasPOS lila:noun .
-?le vartrans:canonicalForm ?lemma.
-?leITA ontolex:translatableAs ?le;
+?le ontolex:canonicalForm ?lemma.
+?leITA vartrans:translatableAs ?le;
 ontolex:canonicalForm ?liitaLemma.
 ?liitaLemma ontolex:writtenRep ?wrIT.
 FILTER regex(str(?wr), "ìa$") .
