@@ -201,28 +201,29 @@ PREFIX onto: <http://www.ontotext.com/>
 PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
 SELECT ?liitaLemma ?lemma ?parmigianoLemma ?wr ?definition WHERE
 {
-  SERVICE <https://klab.ilc.cnr.it/graphdb-compl-it/> {
-    ?word a ontolex:Word ;
-  lexinfo:partOfSpeech [ rdfs:label ?pos ] ;
-                         ontolex:sense ?sense ;
-                         ontolex:canonicalForm ?form .
-    ?form ontolex:writtenRep ?lemma .
-    OPTIONAL {
-      ?sense skos:definition ?definition 
-    } .
-    OPTIONAL {
-      ?sense lexinfo:senseExample ?example 
-    } .
-    FILTER(str(?pos) = "noun") .
-    FILTER (strstarts(str(?definition), "uccello")).
-  }
-  ?word ontolex:canonicalForm ?liitaLemma.
-  ?leItaLexiconPar ontolex:canonicalForm ?liitaLemma;
-                   ^lime:entry <http://liita.it/data/LexicalReources/DialettoParmigiano/Lexicon>.
-  ?leItaLexiconPar vartrans:translatableAs ?leParLexiconPar.
-  ?leParLexiconPar ontolex:canonicalForm ?parmigianoLemma.
-  ?parmigianoLemma ontolex:writtenRep ?wr
-}  group by ?wr
+SERVICE <https://klab.ilc.cnr.it/graphdb-compl-it/> {
+?word a ontolex:Word ;
+lexinfo:partOfSpeech [ rdfs:label ?pos ] ;
+ontolex:sense ?sense ;
+ontolex:canonicalForm ?form .
+?form ontolex:writtenRep ?lemma .
+OPTIONAL {
+?sense skos:definition ?definition 
+} .
+OPTIONAL {
+?sense lexinfo:senseExample ?example 
+} .
+FILTER(str(?pos) = "noun") .
+FILTER (strstarts(str(?definition), "uccello")).
+}
+?word ontolex:canonicalForm ?liitaLemma.
+?leItaLexiconPar ontolex:canonicalForm ?liitaLemma;
+^lime:entry <http://liita.it/data/id/LexicalReources/DialettoParmigiano/Lexicon>.
+?leItaLexiconPar vartrans:translatableAs ?leParLexiconPar.
+?leParLexiconPar ontolex:canonicalForm ?parmigianoLemma.
+?parmigianoLemma ontolex:writtenRep ?wr
+}group by ?wr
 ```
