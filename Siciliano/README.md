@@ -48,6 +48,7 @@ FILTER regex(str(?wr2), "^r") .
 PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX vartrans: <http://www.w3.org/ns/lemon/vartrans#>
 
 SELECT ?lemma (GROUP_CONCAT(DISTINCT ?wr ;separator=", ") as ?wrs) ?liitaLemma (GROUP_CONCAT(DISTINCT ?wrIT ;separator=", ") as ?wrsIT)
 WHERE {
