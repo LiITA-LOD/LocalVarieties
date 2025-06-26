@@ -82,3 +82,28 @@ ontolex:canonicalForm ?liitaLemma.
 ?liitaLemma lila:hasGender lila:masculine.
 } group by ?lemma ?liitaLemma
 ```
+
+**Find Italian verbs of the first conjugation (ending with "are") and shows the corresponding translations in Parmigiano and Sicilian**
+```
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX vartrans: <http://www.w3.org/ns/lemon/vartrans#>
+
+SELECT ?lemma (GROUP_CONCAT(DISTINCT ?wr ;separator=", ") as ?wrs) ?liitaLemma (GROUP_CONCAT(DISTINCT ?wrIT ;separator=", ") as ?wrsIT) ?lemmaPR (GROUP_CONCAT(DISTINCT ?wrPR ;separator=", ") as ?wrsPR) 
+WHERE {
+?lemma dcterms:isPartOf <http://liita.it/data/id/DialettoSiciliano/lemma/LemmaBank>.
+?lemma ontolex:writtenRep ?wr .
+?le ontolex:canonicalForm ?lemma.
+?leITA vartrans:translatableAs ?le;
+ontolex:canonicalForm ?liitaLemma.
+?liitaLemma ontolex:writtenRep ?wrIT.
+?liitaLemma lila:hasPOS lila:verb .
+?leITAPR ontolex:canonicalForm ?liitaLemma.
+?leITAPR vartrans:translatableAs ?lePR .
+?lePR ontolex:canonicalForm ?lemmaPR .
+?lemmaPR dcterms:isPartOf <http://liita.it/data/id/DialettoParmigiano/lemma/LemmaBank>.
+?lemmaPR ontolex:writtenRep ?wrPR .
+FILTER regex(str(?wrIT), "are$") .
+} group by ?liitaLemma ?lemma ?lemmaPR
+```
