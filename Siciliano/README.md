@@ -62,3 +62,23 @@ ontolex:canonicalForm ?liitaLemma.
 FILTER regex(str(?wr), "ìa$") .
 } group by ?lemma ?liitaLemma
 ```
+
+**Find Sicilian common nouns ending with the abstract suffix "ìa" and show the correspoding Italian translations**
+```
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX vartrans: <http://www.w3.org/ns/lemon/vartrans#>
+
+SELECT ?lemma (GROUP_CONCAT(DISTINCT ?wr ;separator=", ") as ?wrs) ?liitaLemma (GROUP_CONCAT(DISTINCT ?wrIT ;separator=", ") as ?wrsIT)
+WHERE {
+?lemma dcterms:isPartOf <http://liita.it/data/id/DialettoSiciliano/lemma/LemmaBank>.
+?lemma ontolex:writtenRep ?wr .
+?lemma lila:hasGender lila:feminine.
+?le ontolex:canonicalForm ?lemma.
+?leITA vartrans:translatableAs ?le;
+ontolex:canonicalForm ?liitaLemma.
+?liitaLemma ontolex:writtenRep ?wrIT.
+?liitaLemma lila:hasGender lila:masculine.
+} group by ?lemma ?liitaLemma
+```
