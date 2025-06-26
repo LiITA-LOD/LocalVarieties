@@ -63,7 +63,7 @@ FILTER regex(str(?wr), "ìa$") .
 } group by ?lemma ?liitaLemma
 ```
 
-**Find Sicilian common nouns ending with the abstract suffix "ìa" and show the correspoding Italian translations**
+**Find Sicilian entries having a feminine gender which Italian translation is masculine**
 ```
 PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
