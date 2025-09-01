@@ -23465,7 +23465,7 @@
   ontolex:writtenRep "lochètt"@roa .
 
 <http://liita.it/data/id/DialettoParmigiano/lemma/3937> a lila:Lemma;
-  lila:hasPOS lila:adjective;
+  lila:hasPOS lila:noun;
   dcterms:isPartOf <http://liita.it/data/id/DialettoParmigiano/lemma/LemmaBank>;
   rdfs:label "locón";
   ontolex:writtenRep "locón"@roa .
@@ -23669,7 +23669,7 @@
   ontolex:writtenRep "lotaria"@roa .
 
 <http://liita.it/data/id/DialettoParmigiano/lemma/3971> a lila:Lemma;
-  lila:hasPOS lila:adjective;
+  lila:hasPOS lila:noun;
   dcterms:isPartOf <http://liita.it/data/id/DialettoParmigiano/lemma/LemmaBank>;
   rdfs:label "lotgón";
   ontolex:writtenRep "lotgón"@roa .
@@ -42779,7 +42779,7 @@
   ontolex:writtenRep "stusigär"@roa .
 
 <http://liita.it/data/id/DialettoParmigiano/lemma/7159> a lila:Lemma;
-  lila:hasPOS lila:adjective;
+  lila:hasPOS lila:noun;
   dcterms:isPartOf <http://liita.it/data/id/DialettoParmigiano/lemma/LemmaBank>;
   rdfs:label "stvàj";
   ontolex:writtenRep "stvàj"@roa .
