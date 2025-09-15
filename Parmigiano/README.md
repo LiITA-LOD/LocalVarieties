@@ -6,7 +6,7 @@ Data are modelled according to the OntoLex-Lemon model and are provided in Turtl
 The subfolder *source* contains the same data but in csv format.
 
 ## Endpoint
-Data can be queried through the following endpoint: [https://kgccc.di.unito.it/sparql/](https://kgccc.di.unito.it/sparql/).
+Data can be queried through the following endpoint: [https://liita.it/sparql](https://liita.it/sparql).
 
 ## SPARQL queries
 This section provides a set of SPARQL queries to be used on the aforementioned endpoint.
