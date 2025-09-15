@@ -6,7 +6,7 @@ This folder contains:
 - A Sicilian-Italian lexicon extracted from [wikizziunariu](https://scn.wiktionary.org/wiki/P%C3%A0ggina_principali). Data are modelled according to the OntoLex-Lemon model and are provided in Turtle format. The RDF version of the glossary includes the linking to the LiIta Knowledge Base. The subfolder source contains the same data but in tsv format.
 
 ## Endpoint
-Data can be queried through the following endpoint: [https://kgccc.di.unito.it/sparql/](https://kgccc.di.unito.it/sparql/).
+Data can be queried through the following endpoint: [https://liita.it/sparql](https://liita.it/sparql).
 
 ## SPARQL queries
 This section provides a set of SPARQL queries to be used on the aforementioned endpoint.
@@ -107,3 +107,4 @@ ontolex:canonicalForm ?liitaLemma.
 FILTER regex(str(?wrIT), "are$") .
 } group by ?liitaLemma ?lemma ?lemmaPR
 ```
+
