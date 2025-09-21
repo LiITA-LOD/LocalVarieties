@@ -108,3 +108,53 @@ FILTER regex(str(?wrIT), "are$") .
 } group by ?liitaLemma ?lemma ?lemmaPR
 ```
 
+
+**--**
+```
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX vartrans: <http://www.w3.org/ns/lemon/vartrans#>
+PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#>
+Select ?wrsIT ?liitaLemma  ?wrs  ?wrsPR ?lemmaPR  (GROUP_CONCAT(DISTINCT ?definition ;
+    separator=", ") as ?definitions)  where {
+  {
+    SELECT ?lemma (GROUP_CONCAT(DISTINCT ?wr ;
+        separator=", ") as ?wrs) ?liitaLemma (GROUP_CONCAT(DISTINCT ?wrIT ;
+        separator=", ") as ?wrsIT) ?lemmaPR (GROUP_CONCAT(DISTINCT ?wrPR ;
+        separator=", ") as ?wrsPR ) ?label_it
+    WHERE {
+      ?lemma dcterms:isPartOf <http://liita.it/data/id/DialettoSiciliano/lemma/LemmaBank>.
+      ?lemma ontolex:writtenRep ?wr .
+      ?le ontolex:canonicalForm ?lemma.
+      ?leITA vartrans:translatableAs ?le;
+             ontolex:canonicalForm ?liitaLemma.
+      ?liitaLemma ontolex:writtenRep ?wrIT.
+      ?liitaLemma lila:hasPOS lila:adjective .
+      ?leITAPR ontolex:canonicalForm ?liitaLemma.
+      ?leITAPR vartrans:translatableAs ?lePR .
+      ?lePR ontolex:canonicalForm ?lemmaPR .
+      ?lemmaPR dcterms:isPartOf <http://liita.it/data/id/DialettoParmigiano/lemma/LemmaBank>.
+      ?lemmaPR ontolex:writtenRep ?wrPR .
+      FILTER regex(str(?wrIT), "^in") .
+      BIND( STRLANG(str(?wrIT), "it") AS ?label_it ) .
+    } group by ?liitaLemma ?lemma ?lemmaPR ?label_it
+  }
+  SERVICE <https://klab.ilc.cnr.it/graphdb-compl-it/> {
+    ?word a ontolex:Word ;
+               rdfs:label ?label_it;
+        ontolex:sense ?sense ;
+        ontolex:canonicalForm ?form .
+        OPTIONAL {
+        ?sense skos:definition ?definition 
+  } .
+  }
+        
+  }group by ?wrs ?liitaLemma ?wrsIT ?lemmaPR ?wrsPR 
+order by  ?wrsIT
+```
+
+
+
+
+
