@@ -109,7 +109,7 @@ FILTER regex(str(?wrIT), "are$") .
 ```
 
 
-**Find Italian adjectives starting with "in" and having a translation in Sicilian and in the Parma dialect showing the definition taken from the CompL-it lexicon**
+**Find Italian adjectives ending with "-oso" and having a translation in Sicilian and in the Parma dialect showing the definition taken from the CompL-it lexicon**
 ```
 PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
@@ -136,7 +136,7 @@ Select ?wrsIT ?liitaLemma  ?wrs  ?wrsPR ?lemmaPR  (GROUP_CONCAT(DISTINCT ?defini
       ?lePR ontolex:canonicalForm ?lemmaPR .
       ?lemmaPR dcterms:isPartOf <http://liita.it/data/id/DialettoParmigiano/lemma/LemmaBank>.
       ?lemmaPR ontolex:writtenRep ?wrPR .
-      FILTER regex(str(?wrIT), "^in") .
+      FILTER regex(str(?wrIT), "oso$") .
       BIND( STRLANG(str(?wrIT), "it") AS ?label_it ) .
     } group by ?liitaLemma ?lemma ?lemmaPR ?label_it
   }
@@ -153,6 +153,7 @@ Select ?wrsIT ?liitaLemma  ?wrs  ?wrsPR ?lemmaPR  (GROUP_CONCAT(DISTINCT ?defini
   }group by ?wrs ?liitaLemma ?wrsIT ?lemmaPR ?wrsPR 
 order by  ?wrsIT
 ```
+
 
 
 
