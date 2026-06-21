@@ -220,7 +220,7 @@ OPTIONAL {
 FILTER(str(?pos) = "noun") .
 FILTER (strstarts(str(?definition), "uccello")).
 }
-?word ontolex:canonicalForm ?liitaLemma.
+?formIT_liita ontolex:writtenRep ?lemmaIT .
 ?leItaLexiconPar ontolex:canonicalForm ?liitaLemma;
 ^lime:entry <http://liita.it/data/id/LexicalReources/DialettoParmigiano/Lexicon>.
 ?leItaLexiconPar vartrans:translatableAs ?leParLexiconPar.
