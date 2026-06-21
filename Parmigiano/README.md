@@ -189,42 +189,59 @@ ontolex:canonicalForm ?liitaLemma.
 FILTER regex(str(?wr), "bil$") .
 } group by ?lemma ?liitaLemma
 ```
-**Query the [Compl-IT lexicon](https://dspace-clarin-it.ilc.cnr.it/repository/xmlui/handle/20.500.11752/ILC-1007) to find definitions that begin with the word *uccello* (EN: *bird*), the correspoding Italian entry and the translation into Parmigiano.**
+**Query the [Compl-IT lexicon](https://dspace-clarin-it.ilc.cnr.it/repository/xmlui/handle/20.500.11752/ILC-1007) to find definitions that begin with the word *uccello* (EN: *bird*), the correspoding Italian entry and the translation into Parmigiano and Sicilian.**
 
 [Results](https://kgccc.di.unito.it/sparql/?default-graph-uri=&query=PREFIX+lime%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Flime%23%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX+skos%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2004%2F02%2Fskos%2Fcore%23%3E%0D%0APREFIX+dct%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+onto%3A+%3Chttp%3A%2F%2Fwww.ontotext.com%2F%3E%0D%0APREFIX+lexinfo%3A+%3Chttp%3A%2F%2Fwww.lexinfo.net%2Fontology%2F3.0%2Flexinfo%23%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0ASELECT+%3FliitaLemma+%3Flemma+%3FparmigianoLemma+%3Fwr+%3Fdefinition+WHERE%0D%0A%7B%0D%0A++SERVICE+%3Chttps%3A%2F%2Fklab.ilc.cnr.it%2Fgraphdb-compl-it%2F%3E+%7B%0D%0A++++%3Fword+a+ontolex%3AWord+%3B%0D%0A++lexinfo%3ApartOfSpeech+%5B+rdfs%3Alabel+%3Fpos+%5D+%3B%0D%0A+++++++++++++++++++++++++ontolex%3Asense+%3Fsense+%3B%0D%0A+++++++++++++++++++++++++ontolex%3AcanonicalForm+%3Fform+.%0D%0A++++%3Fform+ontolex%3AwrittenRep+%3Flemma+.%0D%0A++++OPTIONAL+%7B%0D%0A++++++%3Fsense+skos%3Adefinition+%3Fdefinition+%0D%0A++++%7D+.%0D%0A++++OPTIONAL+%7B%0D%0A++++++%3Fsense+lexinfo%3AsenseExample+%3Fexample+%0D%0A++++%7D+.%0D%0A++++FILTER%28str%28%3Fpos%29+%3D+%22noun%22%29+.%0D%0A++++FILTER+%28strstarts%28str%28%3Fdefinition%29%2C+%22uccello%22%29%29.%0D%0A++%7D%0D%0A++%3Fword+ontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A++%3FleItaLexiconPar+ontolex%3AcanonicalForm+%3FliitaLemma%3B%0D%0A+++++++++++++++++++%5Elime%3Aentry+%3Chttp%3A%2F%2Fliita.it%2Fdata%2FLexicalReources%2FDialettoParmigiano%2FLexicon%3E.%0D%0A++%3FleItaLexiconPar+vartrans%3AtranslatableAs+%3FleParLexiconPar.%0D%0A++%3FleParLexiconPar+ontolex%3AcanonicalForm+%3FparmigianoLemma.%0D%0A++%3FparmigianoLemma+ontolex%3AwrittenRep+%3Fwr%0D%0A%7D++group+by+%3Fwr&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
-PREFIX lime: <http://www.w3.org/ns/lemon/lime#>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX vartrans: <http://www.w3.org/ns/lemon/vartrans#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX dct: <http://purl.org/dc/terms/>
-PREFIX onto: <http://www.ontotext.com/>
-PREFIX lexinfo: <http://www.lexinfo.net/ontology/3.0/lexinfo#>
-PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-SELECT ?liitaLemma ?lemma ?parmigianoLemma ?wr ?definition WHERE
-{
-SERVICE <https://klab.ilc.cnr.it/graphdb-compl-it/> {
-?word a ontolex:Word ;
-lexinfo:partOfSpeech [ rdfs:label ?pos ] ;
-ontolex:sense ?sense ;
-ontolex:canonicalForm ?form .
-?form ontolex:writtenRep ?lemma .
-OPTIONAL {
-?sense skos:definition ?definition 
-} .
-OPTIONAL {
-?sense lexinfo:senseExample ?example 
-} .
-FILTER(str(?pos) = "noun") .
-FILTER (strstarts(str(?definition), "uccello")).
+SELECT DISTINCT 
+  ?lemmaIT
+  ?definition
+  ?wrPARM
+WHERE {
+
+  # --- SERVICE Compl-It ---
+  SERVICE <https://klab.ilc.cnr.it/graphdb-compl-it/> {
+
+    ?entryIT a ontolex:LexicalEntry ;
+             ontolex:canonicalForm ?formIT ;
+             ontolex:sense ?sense ;
+             lexinfo:partOfSpeech lexinfo:noun .
+
+    ?formIT ontolex:writtenRep ?lemmaIT .
+
+    OPTIONAL {
+      ?sense skos:definition ?definition .
+    }
+
+    FILTER(STRSTARTS(LCASE(STR(?definition)), "uccello"))
+  }
+
+  # --- LiITA: match per stringa ---
+  ?entryIT_liita a ontolex:LexicalEntry ;
+                 ontolex:canonicalForm ?formIT_liita .
+
+  ?formIT_liita ontolex:writtenRep ?lemmaIT .
+
+  # --- traduzioni (tutte le varianti) ---
+  {
+    ?entryIT_liita vartrans:translatableAs ?entryPARM .
+  }
+  UNION
+  {
+    ?entryPARM vartrans:translatableAs ?entryIT_liita .
+  }
+
+  # --- parmigiano ---
+  ?entryPARM ontolex:canonicalForm ?formPARM .
+  ?formPARM ontolex:writtenRep ?wrPARM .
+
 }
-?formIT_liita ontolex:writtenRep ?lemmaIT .
-?leItaLexiconPar ontolex:canonicalForm ?liitaLemma;
-^lime:entry <http://liita.it/data/id/LexicalReources/DialettoParmigiano/Lexicon>.
-?leItaLexiconPar vartrans:translatableAs ?leParLexiconPar.
-?leParLexiconPar ontolex:canonicalForm ?parmigianoLemma.
-?parmigianoLemma ontolex:writtenRep ?wr
-}group by ?wr
+ORDER BY ?lemmaIT ?wrPARM
+
 ```
