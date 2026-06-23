@@ -202,7 +202,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT 
   ?lemmaIT
   ?definition
-  ?wrPARM
+  ?wrDIALECT
 WHERE {
 
   # --- SERVICE Compl-It ---
@@ -230,18 +230,18 @@ WHERE {
 
   # --- traduzioni (tutte le varianti) ---
   {
-    ?entryIT_liita vartrans:translatableAs ?entryPARM .
+    ?entryIT_liita vartrans:translatableAs ?entryDIALECT .
   }
   UNION
   {
-    ?entryPARM vartrans:translatableAs ?entryIT_liita .
+    ?entryDIALECT vartrans:translatableAs ?entryIT_liita .
   }
 
   # --- parmigiano ---
-  ?entryPARM ontolex:canonicalForm ?formPARM .
-  ?formPARM ontolex:writtenRep ?wrPARM .
+  ?entryDIALECT ontolex:canonicalForm ?formDIALECT .
+  ?formDIALECT ontolex:writtenRep ?wrDIALECT .
 
 }
-ORDER BY ?lemmaIT ?wrPARM
+ORDER BY ?lemmaIT ?wrDIALECT
 
 ```
