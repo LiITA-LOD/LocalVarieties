@@ -264,7 +264,6 @@ WHERE {
   ?lemma lila:hasPOS lila:verb .
   ?lemma ontolex:writtenRep ?wr .
 
-  # --- pivot: siciliano -> italiano ---
   ?le ontolex:canonicalForm ?lemma .
   ?leITA vartrans:translatableAs ?le ;
          ontolex:canonicalForm ?liitaLemmaIT .
@@ -273,7 +272,6 @@ WHERE {
 
   FILTER regex(str(?wrIT), "are$")
 
-  # --- secondo salto: italiano -> parmigiano ---
   OPTIONAL {
     ?leITA_parm ontolex:canonicalForm ?liitaLemmaIT .
     ?leITA_parm vartrans:translatableAs ?leParm .
@@ -284,4 +282,177 @@ WHERE {
 }
 GROUP BY ?lemma
 ORDER BY ?lemma
+```
+
+**Find all verbs annotated with the imperative mood (Mood=Imp) in the STB corpus, returning the token form, its associated lemma, and, when available, the corresponding Italian translation**
+```
+PREFIX powla: <http://purl.org/powla/powla.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX vartrans: <http://www.w3.org/ns/lemon/vartrans#>
+
+SELECT
+  ?tokenLabel
+  ?lemma
+  ?wr
+  (GROUP_CONCAT(DISTINCT ?wrIT; separator=", ") AS ?wrsIT)
+WHERE {
+  VALUES ?copora {
+    <http://liita.it/data/id/corpora/STB/id/corpus>
+  }
+
+  ?annotation rdf:type oa:Annotation ;
+              oa:hasBody <https://universaldependencies.org/it/feat/Mood#Imp> ;
+              oa:hasTarget ?token .
+
+  ?token rdf:type powla:Terminal ;
+         lila:hasLemma ?lemma ;
+         rdfs:label ?tokenLabel .
+
+  ?token powla:hasLayer/powla:hasDocument/^powla:hasSubDocument ?copora .
+
+  ?lemma lila:hasPOS lila:verb ;
+         ontolex:writtenRep ?wr .
+
+  OPTIONAL {
+    ?le ontolex:canonicalForm ?lemma .
+    ?leITA vartrans:translatableAs ?le ;
+           ontolex:canonicalForm ?liitaLemmaIT .
+    ?liitaLemmaIT ontolex:writtenRep ?wrIT .
+    ?liitaLemmaIT dcterms:isPartOf <http://liita.it/data/id/lemma/LemmaBank> .
+  }
+}
+GROUP BY ?tokenLabel ?lemma ?wr
+ORDER BY ?lemma
+```
+
+**Find nouns, verbs, and adjectives that are exclusive to one of two Sicilian versions of the Colapisci text (Ganzirri 1904 vs. Roccalumera 1904) in the STB corpus**
+```
+PREFIX powla: <http://purl.org/powla/powla.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX vartrans: <http://www.w3.org/ns/lemon/vartrans#>
+
+SELECT
+  ?lemma
+  ?lemmaLabel
+  (GROUP_CONCAT(DISTINCT ?wrIT; separator=", ") AS ?wrsIT)
+  ?soloIn
+WHERE {
+  VALUES ?pos { lila:noun lila:verb lila:adjective }
+
+  {
+    ?token rdf:type powla:Terminal ;
+           lila:hasLemma ?lemma .
+    ?token powla:hasLayer/powla:hasDocument <http://liita.it/data/id/corpora/STB/id/corpus/Colapisci%20-%20Ganzirri%201904> .
+
+    FILTER NOT EXISTS {
+      ?token2 rdf:type powla:Terminal ;
+              lila:hasLemma ?lemma .
+      ?token2 powla:hasLayer/powla:hasDocument <http://liita.it/data/id/corpora/STB/id/corpus/Colapisci%20-%20Roccalumera%201904> .
+    }
+    BIND("solo Ganzirri" AS ?soloIn)
+  }
+  UNION
+  {
+    ?token rdf:type powla:Terminal ;
+           lila:hasLemma ?lemma .
+    ?token powla:hasLayer/powla:hasDocument <http://liita.it/data/id/corpora/STB/id/corpus/Colapisci%20-%20Roccalumera%201904> .
+
+    FILTER NOT EXISTS {
+      ?token2 rdf:type powla:Terminal ;
+              lila:hasLemma ?lemma .
+      ?token2 powla:hasLayer/powla:hasDocument <http://liita.it/data/id/corpora/STB/id/corpus/Colapisci%20-%20Ganzirri%201904> .
+    }
+    BIND("solo Roccalumera" AS ?soloIn)
+  }
+
+  ?lemma rdfs:label ?lemmaLabel ;
+         lila:hasPOS ?pos .
+
+  OPTIONAL {
+    ?le ontolex:canonicalForm ?lemma .
+    ?leITA vartrans:translatableAs ?le ;
+           ontolex:canonicalForm ?liitaLemmaIT .
+    ?liitaLemmaIT ontolex:writtenRep ?wrIT .
+    ?liitaLemmaIT dcterms:isPartOf <http://liita.it/data/id/lemma/LemmaBank> .
+  }
+}
+GROUP BY ?lemma ?lemmaLabel ?soloIn
+ORDER BY ?soloIn ?lemmaLabel
+```
+
+**Find all occurrences of the Sicilian lemma essiri (_to be_) in the Sicilian Treebank, together with their document of origin and the associated Universal Dependencies morphological features (e.g., mood, number, person, tense, and verb form). Duplicates are removed.**
+```
+PREFIX powla: <http://purl.org/powla/powla.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+
+SELECT DISTINCT
+  (CONCAT(?mood, " | ", ?number, " | ", ?person, " | ", ?tense, " | ", ?verbform) AS ?features)
+  ?tokenLabel ?docTitle
+WHERE {
+  VALUES ?copora {
+    <http://liita.it/data/id/corpora/STB/id/corpus>
+  }
+
+  ?lemma a lila:Lemma ;
+         ontolex:writtenRep "essiri"@scn .
+
+  ?token rdf:type powla:Terminal ;
+         lila:hasLemma ?lemma ;
+         rdfs:label ?tokenLabel .
+
+  ?token powla:hasLayer/powla:hasDocument/^powla:hasSubDocument ?copora .
+  ?token powla:hasLayer/powla:hasDocument ?doc .
+  ?doc dc:title ?docTitle .
+
+  OPTIONAL {
+    SELECT ?token (SAMPLE(?m) AS ?mood) WHERE {
+      ?a oa:hasTarget ?token ; oa:hasBody ?b .
+      FILTER(STRSTARTS(STR(?b), "https://universaldependencies.org/it/feat/Mood#"))
+      BIND(STRAFTER(STR(?b), "/feat/") AS ?m)
+    } GROUP BY ?token
+  }
+  OPTIONAL {
+    SELECT ?token (SAMPLE(?n) AS ?number) WHERE {
+      ?a oa:hasTarget ?token ; oa:hasBody ?b .
+      FILTER(STRSTARTS(STR(?b), "https://universaldependencies.org/it/feat/Number#"))
+      BIND(STRAFTER(STR(?b), "/feat/") AS ?n)
+    } GROUP BY ?token
+  }
+  OPTIONAL {
+    SELECT ?token (SAMPLE(?p) AS ?person) WHERE {
+      ?a oa:hasTarget ?token ; oa:hasBody ?b .
+      FILTER(STRSTARTS(STR(?b), "https://universaldependencies.org/it/feat/Person#"))
+      BIND(STRAFTER(STR(?b), "/feat/") AS ?p)
+    } GROUP BY ?token
+  }
+  OPTIONAL {
+    SELECT ?token (SAMPLE(?t) AS ?tense) WHERE {
+      ?a oa:hasTarget ?token ; oa:hasBody ?b .
+      FILTER(STRSTARTS(STR(?b), "https://universaldependencies.org/it/feat/Tense#"))
+      BIND(STRAFTER(STR(?b), "/feat/") AS ?t)
+    } GROUP BY ?token
+  }
+  OPTIONAL {
+    SELECT ?token (SAMPLE(?v) AS ?verbform) WHERE {
+      ?a oa:hasTarget ?token ; oa:hasBody ?b .
+      FILTER(STRSTARTS(STR(?b), "https://universaldependencies.org/it/feat/VerbForm#"))
+      BIND(STRAFTER(STR(?b), "/feat/") AS ?v)
+    } GROUP BY ?token
+  }
+}
+ORDER BY DESC(?features) ?docTitle ?tokenLabel
 ```
