@@ -358,7 +358,7 @@ WHERE {
               lila:hasLemma ?lemma .
       ?token2 powla:hasLayer/powla:hasDocument <http://liita.it/data/id/corpora/STB/id/corpus/Colapisci%20-%20Roccalumera%201904> .
     }
-    BIND("solo Ganzirri" AS ?soloIn)
+    BIND("Ganzirri only" AS ?soloIn)
   }
   UNION
   {
@@ -371,7 +371,7 @@ WHERE {
               lila:hasLemma ?lemma .
       ?token2 powla:hasLayer/powla:hasDocument <http://liita.it/data/id/corpora/STB/id/corpus/Colapisci%20-%20Ganzirri%201904> .
     }
-    BIND("solo Roccalumera" AS ?soloIn)
+    BIND("Roccalumera only" AS ?soloIn)
   }
 
   ?lemma rdfs:label ?lemmaLabel ;
