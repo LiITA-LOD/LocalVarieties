@@ -13,6 +13,8 @@ Data can be queried through the following endpoint: [https://liita.it/sparql](ht
 This section provides a set of SPARQL queries to be used on the aforementioned endpoint.
 
 **Find all Sicilian lemmas having written representations containing the alternation "ed"-"ied"**
+
+[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0A%0D%0ASELECT+%3FlemmaSiciliano+%3FlemmaSicilianoLabel+%3Fwr1+%3Fwr2%0D%0AWHERE+%7B%0D%0A%3FlemmaSiciliano+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A%3FlemmaSiciliano+rdfs%3Alabel+%3FlemmaSicilianoLabel.%0D%0A%3FlemmaSiciliano+ontolex%3AwrittenRep+%3Fwr1%2C+%3Fwr2+.%0D%0Afilter%28+%3Fwr1+%21%3D+%3Fwr2+%29.%0D%0AFILTER+regex%28str%28%3Fwr1%29%2C+%22ied%22%29+.%0D%0AFILTER+regex%28str%28%3Fwr2%29%2C+%22ed%22%29+.%0D%0A%7D+group+by+%3FlemmaSiciliano&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
 PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
@@ -29,6 +31,8 @@ FILTER regex(str(?wr2), "ed") .
 ```
 
 **Find all Sicilian lemmas having written representations starting with "d" or "r"**
+
+[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0A%0D%0ASELECT+%3FlemmaSiciliano+%3FlemmaSicilianoLabel%0D%0AWHERE+%7B%0D%0A%3FlemmaSiciliano+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A%3FlemmaSiciliano+rdfs%3Alabel+%3FlemmaSicilianoLabel.%0D%0A%3FlemmaSiciliano+ontolex%3AwrittenRep+%3Fwr1%2C+%3Fwr2+.%0D%0Afilter%28+%3Fwr1+%21%3D+%3Fwr2+%29.%0D%0AFILTER+regex%28str%28%3Fwr1%29%2C+%22%5Ed%22%29+.%0D%0AFILTER+regex%28str%28%3Fwr2%29%2C+%22%5Er%22%29+.%0D%0A%7D+group+by+%3FlemmaSiciliano&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
 PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
@@ -45,6 +49,8 @@ FILTER regex(str(?wr2), "^r") .
 ```
 
 **Find Sicilian common nouns ending with the abstract suffix "ìa" and show the correspoding Italian translations**
+
+[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT+%3Flemma+%28GROUP_CONCAT%28DISTINCT+%3Fwr+%3Bseparator%3D%22%2C+%22%29+as+%3Fwrs%29+%3FliitaLemma+%28GROUP_CONCAT%28DISTINCT+%3FwrIT+%3Bseparator%3D%22%2C+%22%29+as+%3FwrsIT%29%0D%0AWHERE+%7B%0D%0A%3Flemma+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A%3Flemma+lila%3AhasPOS+lila%3Anoun+.%0D%0A%3Fle+ontolex%3AcanonicalForm+%3Flemma.%0D%0A%3FleITA+vartrans%3AtranslatableAs+%3Fle%3B%0D%0Aontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A%3FliitaLemma+ontolex%3AwrittenRep+%3FwrIT.%0D%0AFILTER+regex%28str%28%3Fwr%29%2C+%22%C3%ACa%24%22%29+.%0D%0A%7D+group+by+%3Flemma+%3FliitaLemma&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
 PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
@@ -65,6 +71,8 @@ FILTER regex(str(?wr), "ìa$") .
 ```
 
 **Find Sicilian entries having a feminine gender which Italian translation is masculine**
+
+[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT+%3Flemma+%28GROUP_CONCAT%28DISTINCT+%3Fwr+%3Bseparator%3D%22%2C+%22%29+as+%3Fwrs%29+%3FliitaLemma+%28GROUP_CONCAT%28DISTINCT+%3FwrIT+%3Bseparator%3D%22%2C+%22%29+as+%3FwrsIT%29%0D%0AWHERE+%7B%0D%0A%3Flemma+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A%3Flemma+lila%3AhasGender+lila%3Afeminine.%0D%0A%3Fle+ontolex%3AcanonicalForm+%3Flemma.%0D%0A%3FleITA+vartrans%3AtranslatableAs+%3Fle%3B%0D%0Aontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A%3FliitaLemma+ontolex%3AwrittenRep+%3FwrIT.%0D%0A%3FliitaLemma+lila%3AhasGender+lila%3Amasculine.%0D%0A%7D+group+by+%3Flemma+%3FliitaLemma&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
 PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
@@ -85,6 +93,8 @@ ontolex:canonicalForm ?liitaLemma.
 ```
 
 **Find Italian verbs of the first conjugation (ending with "are") and shows the corresponding translations in Parmigiano and Sicilian**
+
+[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT+%3Flemma+%28GROUP_CONCAT%28DISTINCT+%3Fwr+%3Bseparator%3D%22%2C+%22%29+as+%3Fwrs%29+%3FliitaLemma+%28GROUP_CONCAT%28DISTINCT+%3FwrIT+%3Bseparator%3D%22%2C+%22%29+as+%3FwrsIT%29+%3FlemmaPR+%28GROUP_CONCAT%28DISTINCT+%3FwrPR+%3Bseparator%3D%22%2C+%22%29+as+%3FwrsPR%29+%0D%0AWHERE+%7B%0D%0A%3Flemma+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A%3Fle+ontolex%3AcanonicalForm+%3Flemma.%0D%0A%3FleITA+vartrans%3AtranslatableAs+%3Fle%3B%0D%0Aontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A%3FliitaLemma+ontolex%3AwrittenRep+%3FwrIT.%0D%0A%3FliitaLemma+lila%3AhasPOS+lila%3Averb+.%0D%0A%3FleITAPR+ontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A%3FleITAPR+vartrans%3AtranslatableAs+%3FlePR+.%0D%0A%3FlePR+ontolex%3AcanonicalForm+%3FlemmaPR+.%0D%0A%3FlemmaPR+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoParmigiano%2Flemma%2FLemmaBank%3E.%0D%0A%3FlemmaPR+ontolex%3AwrittenRep+%3FwrPR+.%0D%0AFILTER+regex%28str%28%3FwrIT%29%2C+%22are%24%22%29+.%0D%0A%7D+group+by+%3FliitaLemma+%3Flemma+%3FlemmaPR&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
 PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
@@ -111,6 +121,8 @@ FILTER regex(str(?wrIT), "are$") .
 
 
 **Find Italian adjectives ending with "-oso" and having a translation in Sicilian and in the Parma dialect showing the definition taken from the CompL-it lexicon**
+
+[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0APREFIX+lexinfo%3A+%3Chttp%3A%2F%2Fwww.lexinfo.net%2Fontology%2F3.0%2Flexinfo%23%3E%0D%0ASelect+%3FwrsIT+%3FliitaLemma++%3Fwrs++%3FwrsPR+%3FlemmaPR++%28GROUP_CONCAT%28DISTINCT+%3Fdefinition+%3B%0D%0A++++separator%3D%22%2C+%22%29+as+%3Fdefinitions%29++where+%7B%0D%0A++%7B%0D%0A++++SELECT+%3Flemma+%28GROUP_CONCAT%28DISTINCT+%3Fwr+%3B%0D%0A++++++++separator%3D%22%2C+%22%29+as+%3Fwrs%29+%3FliitaLemma+%28GROUP_CONCAT%28DISTINCT+%3FwrIT+%3B%0D%0A++++++++separator%3D%22%2C+%22%29+as+%3FwrsIT%29+%3FlemmaPR+%28GROUP_CONCAT%28DISTINCT+%3FwrPR+%3B%0D%0A++++++++separator%3D%22%2C+%22%29+as+%3FwrsPR+%29+%3Flabel_it%0D%0A++++WHERE+%7B%0D%0A++++++%3Flemma+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A++++++%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A++++++%3Fle+ontolex%3AcanonicalForm+%3Flemma.%0D%0A++++++%3FleITA+vartrans%3AtranslatableAs+%3Fle%3B%0D%0A+++++++++++++ontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A++++++%3FliitaLemma+ontolex%3AwrittenRep+%3FwrIT.%0D%0A++++++%3FliitaLemma+lila%3AhasPOS+lila%3Aadjective+.%0D%0A++++++%3FleITAPR+ontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A++++++%3FleITAPR+vartrans%3AtranslatableAs+%3FlePR+.%0D%0A++++++%3FlePR+ontolex%3AcanonicalForm+%3FlemmaPR+.%0D%0A++++++%3FlemmaPR+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoParmigiano%2Flemma%2FLemmaBank%3E.%0D%0A++++++%3FlemmaPR+ontolex%3AwrittenRep+%3FwrPR+.%0D%0A++++++FILTER+regex%28str%28%3FwrIT%29%2C+%22oso%24%22%29+.%0D%0A++++++BIND%28+STRLANG%28str%28%3FwrIT%29%2C+%22it%22%29+AS+%3Flabel_it+%29+.%0D%0A++++%7D+group+by+%3FliitaLemma+%3Flemma+%3FlemmaPR+%3Flabel_it%0D%0A++%7D%0D%0A++SERVICE+%3Chttps%3A%2F%2Fklab.ilc.cnr.it%2Fgraphdb-compl-it%2F%3E+%7B%0D%0A++++%3Fword+a+ontolex%3AWord+%3B%0D%0A+++++++++++++++rdfs%3Alabel+%3Flabel_it%3B%0D%0A++++++++ontolex%3Asense+%3Fsense+%3B%0D%0A++++++++ontolex%3AcanonicalForm+%3Fform+.%0D%0A++++++++OPTIONAL+%7B%0D%0A++++++++%3Fsense+skos%3Adefinition+%3Fdefinition+%0D%0A++%7D+.%0D%0A++%7D%0D%0A++++++++%0D%0A++%7Dgroup+by+%3Fwrs+%3FliitaLemma+%3FwrsIT+%3FlemmaPR+%3FwrsPR+%0D%0Aorder+by++%3FwrsIT&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
 PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
