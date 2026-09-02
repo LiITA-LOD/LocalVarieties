@@ -168,6 +168,8 @@ order by  ?wrsIT
 ```
 
 **Find the noun lemmas occurring as nominal subjects (nsubj) of the verb _diciri_ (to say) in the Sicilian Treebank**
+
+[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX+dc%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%3E%0D%0Aprefix+lilacorpora%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila_corpora%2F%3E%0D%0Aprefix+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0Aprefix+UDSynFunction%3A+%3Chttps%3A%2F%2Funiversaldependencies.org%2Fu%2Fdep%2F%3E%0D%0A%0D%0ASELECT+%3FsubLemmaLabel+%3FdocTitle%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fcopora+%7B%0D%0A++++%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%3E+%0D%0A++%7D%0D%0A++VALUES+%3FsynFunctions+%7B%0D%0A++++UDSynFunction%3Ansubj%0D%0A++%7D%0D%0A++%3Ftoken+rdf%3Atype+powla%3ATerminal%3B%0D%0A+++++++++lila%3AhasLemma+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2F8101%3E+.%0D%0A++%3Frel+rdf%3Atype+%3FsynFunctions%3B%0D%0A+++++++lilacorpora%3AhasHead+%3Ftoken+%3B%0D%0A+++++++lilacorpora%3AhasDep+%3Fsubj+.%0D%0A++%3Fsubj+lila%3AhasLemma+%3FsubjLemma+.%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument%2F%5Epowla%3AhasSubDocument+%3Fcopora+.%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument+%3Fdoc.%0D%0A++%3Fdoc+dc%3Atitle+%3FdocTitle+.%0D%0A++VALUES+%3FnounPos+%7B%0D%0A++++lila%3Anoun+%0D%0A++%7D%0D%0A++%3FsubjLemma+lila%3AhasPOS+%3FnounPos+.%0D%0A++%3FsubjLemma+rdfs%3Alabel+%3FsubLemmaLabel.%0D%0A%7Dgroup+by+%3FsubjLemma+%3FsubLemmaLabel+%3FdocTitle&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
 PREFIX powla: <http://purl.org/powla/powla.owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -203,6 +205,8 @@ WHERE {
 ```
 
 **Extract all adjective lemmas attested in the Sicilian Treebank, identify their Italian equivalents and, whenever available, the corresponding Parmigiano dialect translations**
+
+[Results]
 ```
 PREFIX powla: <http://purl.org/powla/powla.owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
