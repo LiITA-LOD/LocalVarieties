@@ -12,7 +12,7 @@ Data can be queried through the following endpoint: [https://liita.it/sparql](ht
 ## SPARQL queries
 This section provides a set of SPARQL queries to be used on the aforementioned endpoint.
 
-**Find all Sicilian lemmas having written representations containing the alternation "ed"-"ied"**
+**Find all Sicilian lemmas having written representations containing the alternation "ed"-"ied".**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0A%0D%0ASELECT+%3FlemmaSiciliano+%3FlemmaSicilianoLabel+%3Fwr1+%3Fwr2%0D%0AWHERE+%7B%0D%0A%3FlemmaSiciliano+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A%3FlemmaSiciliano+rdfs%3Alabel+%3FlemmaSicilianoLabel.%0D%0A%3FlemmaSiciliano+ontolex%3AwrittenRep+%3Fwr1%2C+%3Fwr2+.%0D%0Afilter%28+%3Fwr1+%21%3D+%3Fwr2+%29.%0D%0AFILTER+regex%28str%28%3Fwr1%29%2C+%22ied%22%29+.%0D%0AFILTER+regex%28str%28%3Fwr2%29%2C+%22ed%22%29+.%0D%0A%7D+group+by+%3FlemmaSiciliano&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -30,7 +30,7 @@ FILTER regex(str(?wr2), "ed") .
 } group by ?lemmaSiciliano
 ```
 
-**Find all Sicilian lemmas having written representations starting with "d" or "r"**
+**Find all Sicilian lemmas having written representations starting with "d" or "r".**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0A%0D%0ASELECT+%3FlemmaSiciliano+%3FlemmaSicilianoLabel%0D%0AWHERE+%7B%0D%0A%3FlemmaSiciliano+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A%3FlemmaSiciliano+rdfs%3Alabel+%3FlemmaSicilianoLabel.%0D%0A%3FlemmaSiciliano+ontolex%3AwrittenRep+%3Fwr1%2C+%3Fwr2+.%0D%0Afilter%28+%3Fwr1+%21%3D+%3Fwr2+%29.%0D%0AFILTER+regex%28str%28%3Fwr1%29%2C+%22%5Ed%22%29+.%0D%0AFILTER+regex%28str%28%3Fwr2%29%2C+%22%5Er%22%29+.%0D%0A%7D+group+by+%3FlemmaSiciliano&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -48,7 +48,7 @@ FILTER regex(str(?wr2), "^r") .
 } group by ?lemmaSiciliano
 ```
 
-**Find Sicilian common nouns ending with the abstract suffix "ìa" and show the correspoding Italian translations**
+**Find Sicilian common nouns ending with the abstract suffix "ìa" and show the correspoding Italian translations.**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT+%3Flemma+%28GROUP_CONCAT%28DISTINCT+%3Fwr+%3Bseparator%3D%22%2C+%22%29+as+%3Fwrs%29+%3FliitaLemma+%28GROUP_CONCAT%28DISTINCT+%3FwrIT+%3Bseparator%3D%22%2C+%22%29+as+%3FwrsIT%29%0D%0AWHERE+%7B%0D%0A%3Flemma+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A%3Flemma+lila%3AhasPOS+lila%3Anoun+.%0D%0A%3Fle+ontolex%3AcanonicalForm+%3Flemma.%0D%0A%3FleITA+vartrans%3AtranslatableAs+%3Fle%3B%0D%0Aontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A%3FliitaLemma+ontolex%3AwrittenRep+%3FwrIT.%0D%0AFILTER+regex%28str%28%3Fwr%29%2C+%22%C3%ACa%24%22%29+.%0D%0A%7D+group+by+%3Flemma+%3FliitaLemma&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -70,7 +70,7 @@ FILTER regex(str(?wr), "ìa$") .
 } group by ?lemma ?liitaLemma
 ```
 
-**Find Sicilian entries having a feminine gender which Italian translation is masculine**
+**Find Sicilian entries having a feminine gender which Italian translation is masculine.**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT+%3Flemma+%28GROUP_CONCAT%28DISTINCT+%3Fwr+%3Bseparator%3D%22%2C+%22%29+as+%3Fwrs%29+%3FliitaLemma+%28GROUP_CONCAT%28DISTINCT+%3FwrIT+%3Bseparator%3D%22%2C+%22%29+as+%3FwrsIT%29%0D%0AWHERE+%7B%0D%0A%3Flemma+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A%3Flemma+lila%3AhasGender+lila%3Afeminine.%0D%0A%3Fle+ontolex%3AcanonicalForm+%3Flemma.%0D%0A%3FleITA+vartrans%3AtranslatableAs+%3Fle%3B%0D%0Aontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A%3FliitaLemma+ontolex%3AwrittenRep+%3FwrIT.%0D%0A%3FliitaLemma+lila%3AhasGender+lila%3Amasculine.%0D%0A%7D+group+by+%3Flemma+%3FliitaLemma&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -92,7 +92,7 @@ ontolex:canonicalForm ?liitaLemma.
 } group by ?lemma ?liitaLemma
 ```
 
-**Find Italian verbs of the first conjugation (ending with "-are") and shows the corresponding translations in Parmigiano and Sicilian**
+**Find Italian verbs of the first conjugation (ending with "-are") and shows the corresponding translations in Parmigiano and Sicilian.**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT+%3Flemma+%28GROUP_CONCAT%28DISTINCT+%3Fwr+%3Bseparator%3D%22%2C+%22%29+as+%3Fwrs%29+%3FliitaLemma+%28GROUP_CONCAT%28DISTINCT+%3FwrIT+%3Bseparator%3D%22%2C+%22%29+as+%3FwrsIT%29+%3FlemmaPR+%28GROUP_CONCAT%28DISTINCT+%3FwrPR+%3Bseparator%3D%22%2C+%22%29+as+%3FwrsPR%29+%0D%0AWHERE+%7B%0D%0A%3Flemma+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A%3Fle+ontolex%3AcanonicalForm+%3Flemma.%0D%0A%3FleITA+vartrans%3AtranslatableAs+%3Fle%3B%0D%0Aontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A%3FliitaLemma+ontolex%3AwrittenRep+%3FwrIT.%0D%0A%3FliitaLemma+lila%3AhasPOS+lila%3Averb+.%0D%0A%3FleITAPR+ontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A%3FleITAPR+vartrans%3AtranslatableAs+%3FlePR+.%0D%0A%3FlePR+ontolex%3AcanonicalForm+%3FlemmaPR+.%0D%0A%3FlemmaPR+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoParmigiano%2Flemma%2FLemmaBank%3E.%0D%0A%3FlemmaPR+ontolex%3AwrittenRep+%3FwrPR+.%0D%0AFILTER+regex%28str%28%3FwrIT%29%2C+%22are%24%22%29+.%0D%0A%7D+group+by+%3FliitaLemma+%3Flemma+%3FlemmaPR&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -120,7 +120,7 @@ FILTER regex(str(?wrIT), "are$") .
 ```
 
 
-**Find Italian adjectives ending with "-oso" and having a translation in Sicilian and in the Parma dialect showing the definition taken from the CompL-it lexicon**
+**Find Italian adjectives ending with "-oso" and having a translation in Sicilian and in the Parma dialect showing the definition taken from the CompL-it lexicon.**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0APREFIX+lexinfo%3A+%3Chttp%3A%2F%2Fwww.lexinfo.net%2Fontology%2F3.0%2Flexinfo%23%3E%0D%0ASelect+%3FwrsIT+%3FliitaLemma++%3Fwrs++%3FwrsPR+%3FlemmaPR++%28GROUP_CONCAT%28DISTINCT+%3Fdefinition+%3B%0D%0A++++separator%3D%22%2C+%22%29+as+%3Fdefinitions%29++where+%7B%0D%0A++%7B%0D%0A++++SELECT+%3Flemma+%28GROUP_CONCAT%28DISTINCT+%3Fwr+%3B%0D%0A++++++++separator%3D%22%2C+%22%29+as+%3Fwrs%29+%3FliitaLemma+%28GROUP_CONCAT%28DISTINCT+%3FwrIT+%3B%0D%0A++++++++separator%3D%22%2C+%22%29+as+%3FwrsIT%29+%3FlemmaPR+%28GROUP_CONCAT%28DISTINCT+%3FwrPR+%3B%0D%0A++++++++separator%3D%22%2C+%22%29+as+%3FwrsPR+%29+%3Flabel_it%0D%0A++++WHERE+%7B%0D%0A++++++%3Flemma+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2FLemmaBank%3E.%0D%0A++++++%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A++++++%3Fle+ontolex%3AcanonicalForm+%3Flemma.%0D%0A++++++%3FleITA+vartrans%3AtranslatableAs+%3Fle%3B%0D%0A+++++++++++++ontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A++++++%3FliitaLemma+ontolex%3AwrittenRep+%3FwrIT.%0D%0A++++++%3FliitaLemma+lila%3AhasPOS+lila%3Aadjective+.%0D%0A++++++%3FleITAPR+ontolex%3AcanonicalForm+%3FliitaLemma.%0D%0A++++++%3FleITAPR+vartrans%3AtranslatableAs+%3FlePR+.%0D%0A++++++%3FlePR+ontolex%3AcanonicalForm+%3FlemmaPR+.%0D%0A++++++%3FlemmaPR+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoParmigiano%2Flemma%2FLemmaBank%3E.%0D%0A++++++%3FlemmaPR+ontolex%3AwrittenRep+%3FwrPR+.%0D%0A++++++FILTER+regex%28str%28%3FwrIT%29%2C+%22oso%24%22%29+.%0D%0A++++++BIND%28+STRLANG%28str%28%3FwrIT%29%2C+%22it%22%29+AS+%3Flabel_it+%29+.%0D%0A++++%7D+group+by+%3FliitaLemma+%3Flemma+%3FlemmaPR+%3Flabel_it%0D%0A++%7D%0D%0A++SERVICE+%3Chttps%3A%2F%2Fklab.ilc.cnr.it%2Fgraphdb-compl-it%2F%3E+%7B%0D%0A++++%3Fword+a+ontolex%3AWord+%3B%0D%0A+++++++++++++++rdfs%3Alabel+%3Flabel_it%3B%0D%0A++++++++ontolex%3Asense+%3Fsense+%3B%0D%0A++++++++ontolex%3AcanonicalForm+%3Fform+.%0D%0A++++++++OPTIONAL+%7B%0D%0A++++++++%3Fsense+skos%3Adefinition+%3Fdefinition+%0D%0A++%7D+.%0D%0A++%7D%0D%0A++++++++%0D%0A++%7Dgroup+by+%3Fwrs+%3FliitaLemma+%3FwrsIT+%3FlemmaPR+%3FwrsPR+%0D%0Aorder+by++%3FwrsIT&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -167,7 +167,7 @@ Select ?wrsIT ?liitaLemma  ?wrs  ?wrsPR ?lemmaPR  (GROUP_CONCAT(DISTINCT ?defini
 order by  ?wrsIT
 ```
 
-**Find a specific token in the treebank**
+**Find a specific token in the treebank.**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX+dc%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+xsd%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%23%3E%0D%0A%0D%0ASELECT+DISTINCT+%3FsentenceNum+%3FtokenLabel+%3FlemmaLabel+%3FdocTitle%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fcopora+%7B%0D%0A++++%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%3E%0D%0A++%7D%0D%0A%0D%0A++%3Ftoken+rdf%3Atype+powla%3ATerminal+%3B%0D%0A+++++++++rdfs%3Alabel+%22spavintatu%22+%3B%0D%0A+++++++++lila%3AhasLemma+%3Flemma+.%0D%0A%0D%0A++BIND%28%22spavintatu%22+AS+%3FtokenLabel%29%0D%0A%0D%0A++%3Flemma+ontolex%3AwrittenRep+%3FlemmaLabel+.%0D%0A%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument%2F%5Epowla%3AhasSubDocument+%3Fcopora+.%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument+%3Fdoc+.%0D%0A++%3Fdoc+dc%3Atitle+%3FdocTitle+.%0D%0A%0D%0A++BIND%28STRAFTER%28STR%28%3Ftoken%29%2C+%22Sentence_%22%29+AS+%3FafterSentence%29%0D%0A++BIND%28xsd%3Ainteger%28STRBEFORE%28%3FafterSentence%2C+%22%2F%22%29%29+AS+%3FsentenceNum%29%0D%0A%7D%0D%0AORDER+BY+%3FdocTitle+%3FsentenceNum&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -203,7 +203,7 @@ WHERE {
 ORDER BY ?docTitle ?sentenceNum
 ```
 
-**Find the noun lemmas occurring as nominal subjects (nsubj) of the verb _diciri_ (to say) in the Sicilian Treebank**
+**Find the noun lemmas occurring as nominal subjects (nsubj) of the verb _diciri_ (to say) in the Sicilian Treebank.**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX+dc%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%3E%0D%0Aprefix+lilacorpora%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila_corpora%2F%3E%0D%0Aprefix+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0Aprefix+UDSynFunction%3A+%3Chttps%3A%2F%2Funiversaldependencies.org%2Fu%2Fdep%2F%3E%0D%0A%0D%0ASELECT+%3FsubLemmaLabel+%3FdocTitle%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fcopora+%7B%0D%0A++++%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%3E+%0D%0A++%7D%0D%0A++VALUES+%3FsynFunctions+%7B%0D%0A++++UDSynFunction%3Ansubj%0D%0A++%7D%0D%0A++%3Ftoken+rdf%3Atype+powla%3ATerminal%3B%0D%0A+++++++++lila%3AhasLemma+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoSiciliano%2Flemma%2F8101%3E+.%0D%0A++%3Frel+rdf%3Atype+%3FsynFunctions%3B%0D%0A+++++++lilacorpora%3AhasHead+%3Ftoken+%3B%0D%0A+++++++lilacorpora%3AhasDep+%3Fsubj+.%0D%0A++%3Fsubj+lila%3AhasLemma+%3FsubjLemma+.%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument%2F%5Epowla%3AhasSubDocument+%3Fcopora+.%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument+%3Fdoc.%0D%0A++%3Fdoc+dc%3Atitle+%3FdocTitle+.%0D%0A++VALUES+%3FnounPos+%7B%0D%0A++++lila%3Anoun+%0D%0A++%7D%0D%0A++%3FsubjLemma+lila%3AhasPOS+%3FnounPos+.%0D%0A++%3FsubjLemma+rdfs%3Alabel+%3FsubLemmaLabel.%0D%0A%7Dgroup+by+%3FsubjLemma+%3FsubLemmaLabel+%3FdocTitle&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -240,7 +240,7 @@ WHERE {
 }group by ?subjLemma ?subLemmaLabel ?docTitle
 ```
 
-**Extract all adjective lemmas attested in the Sicilian Treebank, identify their Italian equivalents and, whenever available, the corresponding Parmigiano dialect translations**
+**Extract all adjective lemmas attested in the Sicilian Treebank, identify their Italian equivalents and, whenever available, the corresponding Parmigiano dialect translations.**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+lilacorpora%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila_corpora%2F%3E%0D%0APREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT%0D%0A++%3Flemma%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3Fwr%3B+separator%3D%22%2C+%22%29+AS+%3Fwrs%29%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrIT%3B+separator%3D%22%2C+%22%29+AS+%3FwrsIT%29%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrPR%3B+separator%3D%22%2C+%22%29+AS+%3FwrsPR%29%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fcopora+%7B%0D%0A++++%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%3E%0D%0A++%7D%0D%0A%0D%0A++%3Ftoken+rdf%3Atype+powla%3ATerminal+%3B%0D%0A+++++++++lila%3AhasLemma+%3Flemma+.%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument%2F%5Epowla%3AhasSubDocument+%3Fcopora+.%0D%0A%0D%0A++%3Flemma+lila%3AhasPOS+lila%3Aadjective+.%0D%0A++%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A%0D%0A++OPTIONAL+%7B%0D%0A++++%3Fle+ontolex%3AcanonicalForm+%3Flemma+.%0D%0A++++%3FleITA+vartrans%3AtranslatableAs+%3Fle+%3B%0D%0A+++++++++++ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++++%3FliitaLemmaIT+ontolex%3AwrittenRep+%3FwrIT+.%0D%0A++++%3FliitaLemmaIT+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Flemma%2FLemmaBank%3E+.%0D%0A%0D%0A++++OPTIONAL+%7B%0D%0A++++++%3FleITA_parm+ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++++++%3FleITA_parm+vartrans%3AtranslatableAs+%3FleParm+.%0D%0A++++++%3FleParm+ontolex%3AcanonicalForm+%3FliitaLemmaPR+.%0D%0A++++++%3FliitaLemmaPR+ontolex%3AwrittenRep+%3FwrPR+.%0D%0A++++++%3FliitaLemmaPR+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoParmigiano%2Flemma%2FLemmaBank%3E+.%0D%0A++++%7D%0D%0A++%7D%0D%0A%7D%0D%0AGROUP+BY+%3Flemma%0D%0AORDER+BY+%3Flemma&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -289,7 +289,7 @@ GROUP BY ?lemma
 ORDER BY ?lemma
 ```
 
-**Find Sicilian verbs attested in the Sicilian Treebank whose Italian translation ends in _-are_, and retrieve their corresponding Parmigiano equivalents**
+**Find Sicilian verbs attested in the Sicilian Treebank whose Italian translation ends in _-are_, and retrieve their corresponding Parmigiano equivalents.**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+lilacorpora%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila_corpora%2F%3E%0D%0APREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT%0D%0A++%3Flemma%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3Fwr%3B+separator%3D%22%2C+%22%29+AS+%3Fwrs%29%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrIT%3B+separator%3D%22%2C+%22%29+AS+%3FwrsIT%29%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrPR%3B+separator%3D%22%2C+%22%29+AS+%3FwrsPR%29%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fcopora+%7B%0D%0A++++%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%3E%0D%0A++%7D%0D%0A%0D%0A++%3Ftoken+rdf%3Atype+powla%3ATerminal+%3B%0D%0A+++++++++lila%3AhasLemma+%3Flemma+.%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument%2F%5Epowla%3AhasSubDocument+%3Fcopora+.%0D%0A%0D%0A++%3Flemma+lila%3AhasPOS+lila%3Averb+.%0D%0A++%3Flemma+ontolex%3AwrittenRep+%3Fwr+.%0D%0A%0D%0A++%3Fle+ontolex%3AcanonicalForm+%3Flemma+.%0D%0A++%3FleITA+vartrans%3AtranslatableAs+%3Fle+%3B%0D%0A+++++++++ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++%3FliitaLemmaIT+ontolex%3AwrittenRep+%3FwrIT+.%0D%0A++%3FliitaLemmaIT+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Flemma%2FLemmaBank%3E+.%0D%0A%0D%0A++FILTER+regex%28str%28%3FwrIT%29%2C+%22are%24%22%29%0D%0A%0D%0A++OPTIONAL+%7B%0D%0A++++%3FleITA_parm+ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++++%3FleITA_parm+vartrans%3AtranslatableAs+%3FleParm+.%0D%0A++++%3FleParm+ontolex%3AcanonicalForm+%3FliitaLemmaPR+.%0D%0A++++%3FliitaLemmaPR+ontolex%3AwrittenRep+%3FwrPR+.%0D%0A++++%3FliitaLemmaPR+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoParmigiano%2Flemma%2FLemmaBank%3E+.%0D%0A++%7D%0D%0A%7D%0D%0AGROUP+BY+%3Flemma%0D%0AORDER+BY+%3Flemma&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -338,7 +338,7 @@ GROUP BY ?lemma
 ORDER BY ?lemma
 ```
 
-**Find all verbs annotated with the imperative mood (Mood=Imp) in the STB corpus, returning the token form, its associated lemma, and, when available, the corresponding Italian translation**
+**Find all verbs annotated with the imperative mood (Mood=Imp) in the STB corpus, returning the token form, its associated lemma, and, when available, the corresponding Italian translation.**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+oa%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Foa%23%3E%0D%0APREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT%0D%0A++%3FtokenLabel%0D%0A++%3Flemma%0D%0A++%3Fwr%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrIT%3B+separator%3D%22%2C+%22%29+AS+%3FwrsIT%29%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrPR%3B+separator%3D%22%2C+%22%29+AS+%3FwrsPR%29%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fcopora+%7B%0D%0A++++%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%3E%0D%0A++%7D%0D%0A%0D%0A++%3Fannotation+rdf%3Atype+oa%3AAnnotation+%3B%0D%0A++++++++++++++oa%3AhasBody+%3Chttps%3A%2F%2Funiversaldependencies.org%2Fit%2Ffeat%2FMood%23Imp%3E+%3B%0D%0A++++++++++++++oa%3AhasTarget+%3Ftoken+.%0D%0A%0D%0A++%3Ftoken+rdf%3Atype+powla%3ATerminal+%3B%0D%0A+++++++++lila%3AhasLemma+%3Flemma+%3B%0D%0A+++++++++rdfs%3Alabel+%3FtokenLabel+.%0D%0A%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument%2F%5Epowla%3AhasSubDocument+%3Fcopora+.%0D%0A%0D%0A++%3Flemma+lila%3AhasPOS+lila%3Averb+%3B%0D%0A+++++++++ontolex%3AwrittenRep+%3Fwr+.%0D%0A%0D%0A++OPTIONAL+%7B%0D%0A++++%3Fle+ontolex%3AcanonicalForm+%3Flemma+.%0D%0A++++%3FleITA+vartrans%3AtranslatableAs+%3Fle+%3B%0D%0A+++++++++++ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++++%3FliitaLemmaIT+ontolex%3AwrittenRep+%3FwrIT+.%0D%0A++++%3FliitaLemmaIT+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Flemma%2FLemmaBank%3E+.%0D%0A%0D%0A++++%23+---+secondo+salto%3A+italiano+-%3E+parmigiano+---%0D%0A++++OPTIONAL+%7B%0D%0A++++++%3FleITA_parm+ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++++++%3FleITA_parm+vartrans%3AtranslatableAs+%3FleParm+.%0D%0A++++++%3FleParm+ontolex%3AcanonicalForm+%3FliitaLemmaPR+.%0D%0A++++++%3FliitaLemmaPR+ontolex%3AwrittenRep+%3FwrPR+.%0D%0A++++++%3FliitaLemmaPR+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoParmigiano%2Flemma%2FLemmaBank%3E+.%0D%0A++++%7D%0D%0A++%7D%0D%0A%7D%0D%0AGROUP+BY+%3FtokenLabel+%3Flemma+%3Fwr%0D%0AORDER+BY+%3Flemma&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -395,7 +395,7 @@ GROUP BY ?tokenLabel ?lemma ?wr
 ORDER BY ?lemma
 ```
 
-**Find nouns, verbs, and adjectives that are exclusive to one of two Sicilian versions of the Colapisci text (Ganzirri 1904 vs. Roccalumera 1904) in the STB corpus**
+**Find nouns, verbs, and adjectives that are exclusive to one of two Sicilian versions of the Colapisci text (Ganzirri 1904 vs. Roccalumera 1904) in the STB corpus.**
 
 [Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT%0D%0A++%3Flemma%0D%0A++%3FlemmaLabel%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrIT%3B+separator%3D%22%2C+%22%29+AS+%3FwrsIT%29%0D%0A++%3FsoloIn%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fpos+%7B+lila%3Anoun+lila%3Averb+lila%3Aadjective+%7D%0D%0A%0D%0A++%7B%0D%0A++++%3Ftoken+rdf%3Atype+powla%3ATerminal+%3B%0D%0A+++++++++++lila%3AhasLemma+%3Flemma+.%0D%0A++++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%2FColapisci%2520-%2520Ganzirri%25201904%3E+.%0D%0A%0D%0A++++FILTER+NOT+EXISTS+%7B%0D%0A++++++%3Ftoken2+rdf%3Atype+powla%3ATerminal+%3B%0D%0A++++++++++++++lila%3AhasLemma+%3Flemma+.%0D%0A++++++%3Ftoken2+powla%3AhasLayer%2Fpowla%3AhasDocument+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%2FColapisci%2520-%2520Roccalumera%25201904%3E+.%0D%0A++++%7D%0D%0A++++BIND%28%22Ganzirri+only%22+AS+%3FsoloIn%29%0D%0A++%7D%0D%0A++UNION%0D%0A++%7B%0D%0A++++%3Ftoken+rdf%3Atype+powla%3ATerminal+%3B%0D%0A+++++++++++lila%3AhasLemma+%3Flemma+.%0D%0A++++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%2FColapisci%2520-%2520Roccalumera%25201904%3E+.%0D%0A%0D%0A++++FILTER+NOT+EXISTS+%7B%0D%0A++++++%3Ftoken2+rdf%3Atype+powla%3ATerminal+%3B%0D%0A++++++++++++++lila%3AhasLemma+%3Flemma+.%0D%0A++++++%3Ftoken2+powla%3AhasLayer%2Fpowla%3AhasDocument+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%2FColapisci%2520-%2520Ganzirri%25201904%3E+.%0D%0A++++%7D%0D%0A++++BIND%28%22Roccalumera+only%22+AS+%3FsoloIn%29%0D%0A++%7D%0D%0A%0D%0A++%3Flemma+rdfs%3Alabel+%3FlemmaLabel+%3B%0D%0A+++++++++lila%3AhasPOS+%3Fpos+.%0D%0A%0D%0A++OPTIONAL+%7B%0D%0A++++%3Fle+ontolex%3AcanonicalForm+%3Flemma+.%0D%0A++++%3FleITA+vartrans%3AtranslatableAs+%3Fle+%3B%0D%0A+++++++++++ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++++%3FliitaLemmaIT+ontolex%3AwrittenRep+%3FwrIT+.%0D%0A++++%3FliitaLemmaIT+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Flemma%2FLemmaBank%3E+.%0D%0A++%7D%0D%0A%7D%0D%0AGROUP+BY+%3Flemma+%3FlemmaLabel+%3FsoloIn%0D%0AORDER+BY+%3FsoloIn+%3FlemmaLabel&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
@@ -524,4 +524,69 @@ WHERE {
   }
 }
 ORDER BY DESC(?features) ?docTitle ?tokenLabel
+```
+
+**Find all _advmod_ (adverbial modifier) syntactic relations in the Sicilian treebank, returning the head lemma and its dependent adverb lemma along with their Italian translations (when available) and the source document title.**
+
+[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX+dc%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+lilacorpora%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila_corpora%2F%3E%0D%0APREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0APREFIX+UDSynFunction%3A+%3Chttps%3A%2F%2Funiversaldependencies.org%2Fu%2Fdep%2F%3E%0D%0A%0D%0ASELECT%0D%0A++%3FheadLemmaLabel%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FheadWrIT%3B+separator%3D%22%2C+%22%29+AS+%3FheadTranslationsIT%29%0D%0A++%3FadvmodLemmaLabel%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FadvmodWrIT%3B+separator%3D%22%2C+%22%29+AS+%3FadvmodTranslationsIT%29%0D%0A++%3FdocTitle%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fcopora+%7B%0D%0A++++%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%3E%0D%0A++%7D%0D%0A++VALUES+%3FsynFunctions+%7B%0D%0A++++UDSynFunction%3Aadvmod%0D%0A++%7D%0D%0A%0D%0A++%3Ftoken+rdf%3Atype+powla%3ATerminal+%3B%0D%0A+++++++++lila%3AhasLemma+%3FheadLemma+.%0D%0A%0D%0A++%3Frel+rdf%3Atype+%3FsynFunctions+%3B%0D%0A+++++++lilacorpora%3AhasHead+%3Ftoken+%3B%0D%0A+++++++lilacorpora%3AhasDep+%3Fdep+.%0D%0A%0D%0A++%3Fdep+lila%3AhasLemma+%3FdepLemma+.%0D%0A%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument%2F%5Epowla%3AhasSubDocument+%3Fcopora+.%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument+%3Fdoc+.%0D%0A++%3Fdoc+dc%3Atitle+%3FdocTitle+.%0D%0A%0D%0A++%3FheadLemma+ontolex%3AwrittenRep+%3FheadLemmaLabel+.%0D%0A++%3FdepLemma+ontolex%3AwrittenRep+%3FadvmodLemmaLabel+.%0D%0A%0D%0A++%23+---+traduzione+italiana+della+testa+---%0D%0A++OPTIONAL+%7B%0D%0A++++%3FheadLe+ontolex%3AcanonicalForm+%3FheadLemma+.%0D%0A++++%3FheadLeIT+vartrans%3AtranslatableAs+%3FheadLe+%3B%0D%0A++++++++++++++ontolex%3AcanonicalForm+%3FheadLemmaIT+.%0D%0A++++%3FheadLemmaIT+ontolex%3AwrittenRep+%3FheadWrIT+.%0D%0A++++%3FheadLemmaIT+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Flemma%2FLemmaBank%3E+.%0D%0A++%7D%0D%0A%0D%0A++%23+---+traduzione+italiana+dell%27avverbio+%28advmod%29+---%0D%0A++OPTIONAL+%7B%0D%0A++++%3FadvmodLe+ontolex%3AcanonicalForm+%3FdepLemma+.%0D%0A++++%3FadvmodLeIT+vartrans%3AtranslatableAs+%3FadvmodLe+%3B%0D%0A++++++++++++++++ontolex%3AcanonicalForm+%3FadvmodLemmaIT+.%0D%0A++++%3FadvmodLemmaIT+ontolex%3AwrittenRep+%3FadvmodWrIT+.%0D%0A++++%3FadvmodLemmaIT+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Flemma%2FLemmaBank%3E+.%0D%0A++%7D%0D%0A%7D%0D%0AGROUP+BY+%3FheadLemmaLabel+%3FadvmodLemmaLabel+%3FdocTitle%0D%0AORDER+BY+%3FdocTitle+%3FheadLemmaLabel&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
+```
+PREFIX powla: <http://purl.org/powla/powla.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX lilacorpora: <http://lila-erc.eu/ontologies/lila_corpora/>
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX vartrans: <http://www.w3.org/ns/lemon/vartrans#>
+PREFIX UDSynFunction: <https://universaldependencies.org/u/dep/>
+
+SELECT
+  ?headLemmaLabel
+  (GROUP_CONCAT(DISTINCT ?headWrIT; separator=", ") AS ?headTranslationsIT)
+  ?advmodLemmaLabel
+  (GROUP_CONCAT(DISTINCT ?advmodWrIT; separator=", ") AS ?advmodTranslationsIT)
+  ?docTitle
+WHERE {
+  VALUES ?copora {
+    <http://liita.it/data/id/corpora/STB/id/corpus>
+  }
+  VALUES ?synFunctions {
+    UDSynFunction:advmod
+  }
+
+  ?token rdf:type powla:Terminal ;
+         lila:hasLemma ?headLemma .
+
+  ?rel rdf:type ?synFunctions ;
+       lilacorpora:hasHead ?token ;
+       lilacorpora:hasDep ?dep .
+
+  ?dep lila:hasLemma ?depLemma .
+
+  ?token powla:hasLayer/powla:hasDocument/^powla:hasSubDocument ?copora .
+  ?token powla:hasLayer/powla:hasDocument ?doc .
+  ?doc dc:title ?docTitle .
+
+  ?headLemma ontolex:writtenRep ?headLemmaLabel .
+  ?depLemma ontolex:writtenRep ?advmodLemmaLabel .
+
+  OPTIONAL {
+    ?headLe ontolex:canonicalForm ?headLemma .
+    ?headLeIT vartrans:translatableAs ?headLe ;
+              ontolex:canonicalForm ?headLemmaIT .
+    ?headLemmaIT ontolex:writtenRep ?headWrIT .
+    ?headLemmaIT dcterms:isPartOf <http://liita.it/data/id/lemma/LemmaBank> .
+  }
+
+  OPTIONAL {
+    ?advmodLe ontolex:canonicalForm ?depLemma .
+    ?advmodLeIT vartrans:translatableAs ?advmodLe ;
+                ontolex:canonicalForm ?advmodLemmaIT .
+    ?advmodLemmaIT ontolex:writtenRep ?advmodWrIT .
+    ?advmodLemmaIT dcterms:isPartOf <http://liita.it/data/id/lemma/LemmaBank> .
+  }
+}
+GROUP BY ?headLemmaLabel ?advmodLemmaLabel ?docTitle
+ORDER BY ?docTitle ?headLemmaLabel
 ```
