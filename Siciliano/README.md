@@ -590,3 +590,49 @@ WHERE {
 GROUP BY ?headLemmaLabel ?advmodLemmaLabel ?docTitle
 ORDER BY ?docTitle ?headLemmaLabel
 ```
+
+**Find all root syntactic relations in the Sicilian treebank, groups them by lemma, counts how often each lemma occurs as a sentence root, and shows its Italian translation(s) when available, ordered from most to least frequent.**
+
+[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+lilacorpora%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila_corpora%2F%3E%0D%0APREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0APREFIX+UDSynFunction%3A+%3Chttps%3A%2F%2Funiversaldependencies.org%2Fu%2Fdep%2F%3E%0D%0A%0D%0ASELECT%0D%0A++%3FrootLemmaLabel%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrIT%3B+separator%3D%22%2C+%22%29+AS+%3FwrsIT%29%0D%0A++%28COUNT%28%3Frel%29+AS+%3Ffreq%29%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fcopora+%7B%0D%0A++++%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%3E%0D%0A++%7D%0D%0A++VALUES+%3FsynFunctions+%7B%0D%0A++++UDSynFunction%3Aroot%0D%0A++%7D%0D%0A%0D%0A++%3Frel+rdf%3Atype+%3FsynFunctions+%3B%0D%0A+++++++lilacorpora%3AhasDep+%3Fdep+.%0D%0A%0D%0A++%3Fdep+lila%3AhasLemma+%3FrootLemma+.%0D%0A++%3Fdep+powla%3AhasLayer%2Fpowla%3AhasDocument%2F%5Epowla%3AhasSubDocument+%3Fcopora+.%0D%0A%0D%0A++%3FrootLemma+ontolex%3AwrittenRep+%3FrootLemmaLabel+.%0D%0A%0D%0A++%23+---+traduzione+italiana+---%0D%0A++OPTIONAL+%7B%0D%0A++++%3Fle+ontolex%3AcanonicalForm+%3FrootLemma+.%0D%0A++++%3FleITA+vartrans%3AtranslatableAs+%3Fle+%3B%0D%0A+++++++++++ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++++%3FliitaLemmaIT+ontolex%3AwrittenRep+%3FwrIT+.%0D%0A++++%3FliitaLemmaIT+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Flemma%2FLemmaBank%3E+.%0D%0A++%7D%0D%0A%7D%0D%0AGROUP+BY+%3FrootLemmaLabel%0D%0AORDER+BY+DESC%28%3Ffreq%29&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
+
+```
+PREFIX powla: <http://purl.org/powla/powla.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX lilacorpora: <http://lila-erc.eu/ontologies/lila_corpora/>
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX vartrans: <http://www.w3.org/ns/lemon/vartrans#>
+PREFIX UDSynFunction: <https://universaldependencies.org/u/dep/>
+
+SELECT
+  ?rootLemmaLabel
+  (GROUP_CONCAT(DISTINCT ?wrIT; separator=", ") AS ?wrsIT)
+  (COUNT(?rel) AS ?freq)
+WHERE {
+  VALUES ?copora {
+    <http://liita.it/data/id/corpora/STB/id/corpus>
+  }
+  VALUES ?synFunctions {
+    UDSynFunction:root
+  }
+
+  ?rel rdf:type ?synFunctions ;
+       lilacorpora:hasDep ?dep .
+
+  ?dep lila:hasLemma ?rootLemma .
+  ?dep powla:hasLayer/powla:hasDocument/^powla:hasSubDocument ?copora .
+
+  ?rootLemma ontolex:writtenRep ?rootLemmaLabel .
+
+  OPTIONAL {
+    ?le ontolex:canonicalForm ?rootLemma .
+    ?leITA vartrans:translatableAs ?le ;
+           ontolex:canonicalForm ?liitaLemmaIT .
+    ?liitaLemmaIT ontolex:writtenRep ?wrIT .
+    ?liitaLemmaIT dcterms:isPartOf <http://liita.it/data/id/lemma/LemmaBank> .
+  }
+}
+GROUP BY ?rootLemmaLabel
+ORDER BY DESC(?freq)
+```
