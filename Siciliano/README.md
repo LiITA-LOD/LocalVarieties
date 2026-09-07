@@ -340,7 +340,7 @@ ORDER BY ?lemma
 
 **Find all verbs annotated with the imperative mood (Mood=Imp) in the STB corpus, returning the token form, its associated lemma, and, when available, the corresponding Italian translation**
 
-[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+oa%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Foa%23%3E%0D%0APREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT%0D%0A++%3FtokenLabel%0D%0A++%3Flemma%0D%0A++%3Fscn%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3Fit%3B+separator%3D%22%2C+%22%29+AS+%3Fit%29%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fcopora+%7B%0D%0A++++%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%3E%0D%0A++%7D%0D%0A%0D%0A++%3Fannotation+rdf%3Atype+oa%3AAnnotation+%3B%0D%0A++++++++++++++oa%3AhasBody+%3Chttps%3A%2F%2Funiversaldependencies.org%2Fit%2Ffeat%2FMood%23Imp%3E+%3B%0D%0A++++++++++++++oa%3AhasTarget+%3Ftoken+.%0D%0A%0D%0A++%3Ftoken+rdf%3Atype+powla%3ATerminal+%3B%0D%0A+++++++++lila%3AhasLemma+%3Flemma+%3B%0D%0A+++++++++rdfs%3Alabel+%3FtokenLabel+.%0D%0A%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument%2F%5Epowla%3AhasSubDocument+%3Fcopora+.%0D%0A%0D%0A++%3Flemma+lila%3AhasPOS+lila%3Averb+%3B%0D%0A+++++++++ontolex%3AwrittenRep+%3Fscn+.%0D%0A%0D%0A++OPTIONAL+%7B%0D%0A++++%3Fle+ontolex%3AcanonicalForm+%3Flemma+.%0D%0A++++%3FleITA+vartrans%3AtranslatableAs+%3Fle+%3B%0D%0A+++++++++++ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++++%3FliitaLemmaIT+ontolex%3AwrittenRep+%3Fit+.%0D%0A++++%3FliitaLemmaIT+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Flemma%2FLemmaBank%3E+.%0D%0A++%7D%0D%0A%7D%0D%0AGROUP+BY+%3FtokenLabel+%3Flemma+%3Fscn%0D%0AORDER+BY+%3Flemma&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
+[Results](https://liita.it/sparql?default-graph-uri=&query=PREFIX+powla%3A+%3Chttp%3A%2F%2Fpurl.org%2Fpowla%2Fpowla.owl%23%3E%0D%0APREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX+dcterms%3A+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0D%0APREFIX+oa%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Foa%23%3E%0D%0APREFIX+lila%3A+%3Chttp%3A%2F%2Flila-erc.eu%2Fontologies%2Flila%2F%3E%0D%0APREFIX+ontolex%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fontolex%23%3E%0D%0APREFIX+vartrans%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Flemon%2Fvartrans%23%3E%0D%0A%0D%0ASELECT%0D%0A++%3FtokenLabel%0D%0A++%3Flemma%0D%0A++%3Fwr%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrIT%3B+separator%3D%22%2C+%22%29+AS+%3FwrsIT%29%0D%0A++%28GROUP_CONCAT%28DISTINCT+%3FwrPR%3B+separator%3D%22%2C+%22%29+AS+%3FwrsPR%29%0D%0AWHERE+%7B%0D%0A++VALUES+%3Fcopora+%7B%0D%0A++++%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Fcorpora%2FSTB%2Fid%2Fcorpus%3E%0D%0A++%7D%0D%0A%0D%0A++%3Fannotation+rdf%3Atype+oa%3AAnnotation+%3B%0D%0A++++++++++++++oa%3AhasBody+%3Chttps%3A%2F%2Funiversaldependencies.org%2Fit%2Ffeat%2FMood%23Imp%3E+%3B%0D%0A++++++++++++++oa%3AhasTarget+%3Ftoken+.%0D%0A%0D%0A++%3Ftoken+rdf%3Atype+powla%3ATerminal+%3B%0D%0A+++++++++lila%3AhasLemma+%3Flemma+%3B%0D%0A+++++++++rdfs%3Alabel+%3FtokenLabel+.%0D%0A%0D%0A++%3Ftoken+powla%3AhasLayer%2Fpowla%3AhasDocument%2F%5Epowla%3AhasSubDocument+%3Fcopora+.%0D%0A%0D%0A++%3Flemma+lila%3AhasPOS+lila%3Averb+%3B%0D%0A+++++++++ontolex%3AwrittenRep+%3Fwr+.%0D%0A%0D%0A++OPTIONAL+%7B%0D%0A++++%3Fle+ontolex%3AcanonicalForm+%3Flemma+.%0D%0A++++%3FleITA+vartrans%3AtranslatableAs+%3Fle+%3B%0D%0A+++++++++++ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++++%3FliitaLemmaIT+ontolex%3AwrittenRep+%3FwrIT+.%0D%0A++++%3FliitaLemmaIT+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2Flemma%2FLemmaBank%3E+.%0D%0A%0D%0A++++%23+---+secondo+salto%3A+italiano+-%3E+parmigiano+---%0D%0A++++OPTIONAL+%7B%0D%0A++++++%3FleITA_parm+ontolex%3AcanonicalForm+%3FliitaLemmaIT+.%0D%0A++++++%3FleITA_parm+vartrans%3AtranslatableAs+%3FleParm+.%0D%0A++++++%3FleParm+ontolex%3AcanonicalForm+%3FliitaLemmaPR+.%0D%0A++++++%3FliitaLemmaPR+ontolex%3AwrittenRep+%3FwrPR+.%0D%0A++++++%3FliitaLemmaPR+dcterms%3AisPartOf+%3Chttp%3A%2F%2Fliita.it%2Fdata%2Fid%2FDialettoParmigiano%2Flemma%2FLemmaBank%3E+.%0D%0A++++%7D%0D%0A++%7D%0D%0A%7D%0D%0AGROUP+BY+%3FtokenLabel+%3Flemma+%3Fwr%0D%0AORDER+BY+%3Flemma&format=text%2Fhtml&should-sponge=&timeout=0&signal_void=on)
 ```
 PREFIX powla: <http://purl.org/powla/powla.owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -356,6 +356,7 @@ SELECT
   ?lemma
   ?wr
   (GROUP_CONCAT(DISTINCT ?wrIT; separator=", ") AS ?wrsIT)
+  (GROUP_CONCAT(DISTINCT ?wrPR; separator=", ") AS ?wrsPR)
 WHERE {
   VALUES ?copora {
     <http://liita.it/data/id/corpora/STB/id/corpus>
@@ -380,6 +381,14 @@ WHERE {
            ontolex:canonicalForm ?liitaLemmaIT .
     ?liitaLemmaIT ontolex:writtenRep ?wrIT .
     ?liitaLemmaIT dcterms:isPartOf <http://liita.it/data/id/lemma/LemmaBank> .
+
+    OPTIONAL {
+      ?leITA_parm ontolex:canonicalForm ?liitaLemmaIT .
+      ?leITA_parm vartrans:translatableAs ?leParm .
+      ?leParm ontolex:canonicalForm ?liitaLemmaPR .
+      ?liitaLemmaPR ontolex:writtenRep ?wrPR .
+      ?liitaLemmaPR dcterms:isPartOf <http://liita.it/data/id/DialettoParmigiano/lemma/LemmaBank> .
+    }
   }
 }
 GROUP BY ?tokenLabel ?lemma ?wr
