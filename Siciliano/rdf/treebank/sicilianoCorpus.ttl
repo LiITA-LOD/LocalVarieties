@@ -1,0 +1,13 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix powla: <http://purl.org/powla/powla.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<http://liita.it/data/id/corpora/STB/id/corpus> a powla:Corpus, owl:NamedIndividual;
+  dc:title "Sicilian Treebank";
+  <http://purl.org/dc/terms/contributor> "Roberta Grazia Leotta, Giovanni Moretti, Domenico Giuseppe Muscianisi, Rachele Sprugnoli";
+  <http://purl.org/dc/terms/creator> <http://www.wikidata.org/entity/Q89883181>;
+  <http://purl.org/dc/terms/description> "The Sicilian Treebank is a small parallel corpus of Sicilian texts, automatically parsed and then manually revised, with Italian translations. It includes both contemporary and folkloric materials. It is included in Universal Dependencies since v2.17.";
+  <http://purl.org/dc/terms/license> <http://www.wikidata.org/entity/Q42553662>;
+  <http://purl.org/dc/terms/publisher> <http://www.wikidata.org/entity/Q89883181>;
+  rdfs:seeAlso <https://github.com/UniversalDependencies/UD_Sicilian-STB/tree/master> .
